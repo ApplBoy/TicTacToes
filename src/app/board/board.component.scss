@@ -1,0 +1,21 @@
+h1 {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+h2 {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+main {
+    margin-top: 15%;
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    grid-gap: 0px;
+}
+
+app-square {
+    align-items: center;
+    height: 100px;
+}

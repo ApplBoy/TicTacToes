@@ -1,0 +1,13 @@
+<h1>Jogador Atual: {{ player }} </h1>
+
+<button class="button-5" (click)="newGame()">Começar Novo Jogo </button>
+
+<main>
+    <app-square
+        *ngFor="let val of squares; let i = index;"
+        [value]="val"
+        (click)="makeMove(i)">
+    </app-square>
+</main>
+
+<h2 *ngIf="winner">Jogador {{ winner }} ganhou! </h2>
