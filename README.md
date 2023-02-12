@@ -1,27 +1,17 @@
 # TicTacToes
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
+Esse projeto foi gerado com [Angular CLI](https://github.com/angular/angular-cli) versão 15.1.5.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Hoje (02/11/2023) decidi colocar em prática algum uso de Angular para aquecer-se, e me surpreendi com a tamanha semelhança entre React e Angular, únicas diferenças estão na declaração de componentes e na execução/compilação do código, fora isso elas possuem uma estrutura comum.
 
-## Code scaffolding
+Esse também é um projeto web usando TypeScript, não vou negar que o seu modo _"strict"_ é um pouco exagerado que acaba quebrando um pouco da compatibilidade com códigos anteriores.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Usei como base o Jogo da Velha feito por [Fireship](https://github.com/fireship-io/angular-tic-tac-toe/tree/master/). O ícone _favicon.ico_ foi adaptado do site [Flaticons](https://www.flaticon.com/free-icons/tic-tac-toe).
 
-## Build
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Fora isso, o design e as cores foram feitas em maior parte por mim, acabei demorando aproximadamente umas 5 horas fazendo esse pequeno projeto, esse tempo foi tornado provável pela documentação e ajuda de programadores e da documentação do Angular e do TypeScript.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+~Apple Boy (Saulo José).
