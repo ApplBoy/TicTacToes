@@ -8,10 +8,11 @@ import { Component } from '@angular/core';
 export class BoardComponent {
   squares: any[] | undefined;
   xIsNext: boolean | undefined;
-  winner: string | null | undefined; 
+  winner: string | null | undefined;
+  AIPlayer: string | null | undefined;
+  humanPlayer: string | null | undefined;
 
-  constructor() {
-  }
+  constructor() { }
 
   ngOnInit() {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -20,13 +21,73 @@ export class BoardComponent {
   }
 
   newGame() {
+    this.AIPlayer = 'O'
+    this.humanPlayer = 'X'
     this.squares = Array(9).fill(null);
     this.winner = null;
     this.xIsNext = true;
   }
 
-  get player(){
-    return this.xIsNext ? 'X' : 'O';   
+  get player() {
+    return this.xIsNext ? 'X' : 'O';
+  }
+
+  hasNoNull(arr: any[]): boolean {
+    return !arr.some(value => value === null);
+  }
+
+  findNullIndex(arr: any[]): number {
+    return arr.findIndex(value => value === null);
+  }
+
+  competitiveSearch(boardMovement: any[], isMaximizing: boolean): number[] {
+    /*
+     * 1 -> Venceu? (Você? 1 : -1) : Continue
+     * 2 -> Min-Max
+     */
+
+    const winner = this.calculateWinner(boardMovement);
+    if (winner != undefined) {
+      return [
+        winner == this.AIPlayer ? 1 : -1,
+        -1
+      ];
+    } else if (this.hasNoNull(boardMovement)) {
+      return [0, -1]
+    }
+
+    let bestScore = isMaximizing ? -Infinity : Infinity;
+    let bestMovement: number = -1;
+    for (let i = 0; i < boardMovement.length; i++) {
+      if (boardMovement[i] === null) {
+        // Por meio da isMaximizing, podemos ver se é o Player ou a IA
+        boardMovement[i] = isMaximizing ? this.AIPlayer : this.humanPlayer;
+        const score = this.competitiveSearch(boardMovement, !isMaximizing)[0];
+        bestScore = isMaximizing ?
+          Math.max(score, bestScore) :
+          Math.min(score, bestScore);
+
+        // Houve uma troca
+        if (score == bestScore) {
+          bestMovement = i;
+        }
+        // console.log(score);
+        boardMovement[i] = null;
+      }
+    }
+    return [bestScore, bestMovement];
+  }
+
+  makeBestMove() {
+    let bestMove: number = this.competitiveSearch(this.squares || Array(9).fill(null), true)[1];
+    console.log(bestMove);
+    if (bestMove != -1) {
+      this.makeMove(bestMove);
+    } else {
+      const randomMovement = this.findNullIndex(this.squares || Array(9).fill(null));
+      // console.log(randomMovement);
+      this.makeMove(randomMovement);
+    }
   }
 
   makeMove(idx: number) {
@@ -34,10 +95,15 @@ export class BoardComponent {
       this.squares!.splice(idx, 1, this.player);
       this.xIsNext = !this.xIsNext;
     }
-    this.winner = this.calculateWinner(); 
+    this.winner = this.calculateWinner(this.squares);
+
+    // Se for a vez da IA
+    if (!this.hasNoNull(this.squares || Array(9).fill(null)) && this.player === this.AIPlayer) {
+      this.makeBestMove();
+    }
   }
 
-  calculateWinner() {
+  calculateWinner(board: any[] | undefined) {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -51,12 +117,12 @@ export class BoardComponent {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (
-        this.squares != undefined &&
-        this.squares[a] &&
-        this.squares[a] === this.squares[b] &&
-        this.squares[a] === this.squares[c]
+        board != undefined &&
+        board[a] &&
+        board[a] === board[b] &&
+        board[a] === board[c]
       ) {
-        return this.squares[a];
+        return board[a];
       }
     }
     return null;
