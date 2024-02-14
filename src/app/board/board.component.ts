@@ -53,16 +53,19 @@ export class BoardComponent {
         -1
       ];
     } else if (this.hasNoNull(boardMovement)) {
+      // Caso seja empate
       return [0, -1]
     }
 
     let bestScore = isMaximizing ? -Infinity : Infinity;
     let bestMovement: number = -1;
+    let totalScore: number = 0;
     for (let i = 0; i < boardMovement.length; i++) {
       if (boardMovement[i] === null) {
         // Por meio da isMaximizing, podemos ver se é o Player ou a IA
         boardMovement[i] = isMaximizing ? this.AIPlayer : this.humanPlayer;
         const score = this.competitiveSearch(boardMovement, !isMaximizing)[0];
+        totalScore += score;
         bestScore = isMaximizing ?
           Math.max(score, bestScore) :
           Math.min(score, bestScore);
@@ -75,7 +78,7 @@ export class BoardComponent {
         boardMovement[i] = null;
       }
     }
-    return [bestScore, bestMovement];
+    return [totalScore, bestMovement];
   }
 
   makeBestMove() {
@@ -98,7 +101,9 @@ export class BoardComponent {
     this.winner = this.calculateWinner(this.squares);
 
     // Se for a vez da IA
-    if (!this.hasNoNull(this.squares || Array(9).fill(null)) && this.player === this.AIPlayer) {
+    if (!this.winner &&
+        !this.hasNoNull(this.squares || Array(9).fill(null)) &&
+        this.player === this.AIPlayer) {
       this.makeBestMove();
     }
   }
