@@ -1,5 +1,12 @@
 <h1>Jogador Atual: {{ player }} </h1>
 
+<select [(ngModel)]="difficulty" (change)="changeDifficulty(difficulty)">
+    <option value="easy">Fácil</option>
+    <option value="medium">Médio</option>
+    <option value="hard">Difícil</option>
+  </select>
+  <br /> <br />
+
 <button class="button-5" (click)="newGame()">Começar Novo Jogo </button>
 
 <main>
